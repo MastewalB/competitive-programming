@@ -3,9 +3,9 @@ import sys
 
 class MinHeap:
     def __init__(self, maxsize):
-        self.maxsize = maxsize
+        self.maxsize = maxsize + 1
         self.size = 0
-        self.Heap = [0] * (self.maxsize + 1)
+        self.Heap = [None] * (self.maxsize + 1)
         self.Heap[0] = -1 * sys.maxsize
         self.FRONT = 1
 
@@ -19,7 +19,8 @@ class MinHeap:
         return (2 * pos) + 1
 
     def isLeaf(self, pos):
-        if pos >= (self.size // 2) and pos <= self.size:
+
+        if pos > (self.size // 2) and pos <= self.size:
             return True
         return False
 
@@ -27,17 +28,20 @@ class MinHeap:
         self.Heap[fpos], self.Heap[spos] = self.Heap[spos], self.Heap[fpos]
 
     def minHeapify(self, pos):
-        largest = pos
-        if not self.isLeaf(pos):
-            if self.Heap[pos] > self.Heap[self.left(pos)]:
-                largest = self.left(pos)
+        smallest = pos
+        if not self.size == 1:
 
-            if self.Heap[pos] > self.Heap[self.right(pos)]:
-                largest = self.right(pos)
+            if not self.isLeaf(pos):
 
-            if largest != pos:
-                self.swap(largest, pos)
-                self.minHeapify(largest)
+                if self.Heap[pos] > self.Heap[self.left(pos)]:
+                    smallest = self.left(pos)
+
+                if self.Heap[smallest] > self.Heap[self.right(pos)]:
+                    smallest = self.right(pos)
+
+            if smallest != pos:
+                self.swap(smallest, pos)
+                self.minHeapify(smallest)
 
     def insert(self, element):
         if self.size >= self.maxsize:
@@ -52,7 +56,8 @@ class MinHeap:
             current = self.parent(current)
 
     def Print(self):
-        for i in range(1, (self.size//2)+1):
+
+        for i in range(1, (self.size//2) + 1):
             print(" PARENT : " + str(self.Heap[i])+" LEFT CHILD : " +
                   str(self.Heap[2 * i])+" RIGHT CHILD : " +
                   str(self.Heap[2 * i + 1]))
