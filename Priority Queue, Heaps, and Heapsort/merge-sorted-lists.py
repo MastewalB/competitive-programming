@@ -18,7 +18,7 @@ count = 0
 while i < max_len:
     j = 0
     while j < len(lists):
-        
+
         if i < len(lists[j]) and count < max_len:
             print(j, i)
             heap.insert(lists[j][i])
@@ -27,7 +27,7 @@ while i < max_len:
             min_item = heap.remove()
             new_list.append(min_item)
             count -= 1
-            print("Min ",min_item)
+            print("Min ", min_item)
             heap.insert(lists[j][i])
             count += 1
         j += 1
@@ -35,17 +35,10 @@ while i < max_len:
 heap.Print()
 if heap.size != 0:
     while heap.size != 0:
-        #heap.Print()
+        # heap.Print()
         min_item = heap.remove()
         count -= 1
         new_list.append(min_item)
-        print("Min ",min_item)
-        
-print(new_list)    
+        print("Min ", min_item)
 
-""" for j in range(len(lists)):
-    if i < len(lists[j]):
-
-        heap.insert(lists[j][i]) """
-
-
+print(new_list)
