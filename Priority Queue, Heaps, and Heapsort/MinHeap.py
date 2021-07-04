@@ -29,19 +29,18 @@ class MinHeap:
 
     def minHeapify(self, pos):
         smallest = pos
-        if not self.size == 1:
+        left = self.left(pos)
+        right = self.right(pos)
 
-            if not self.isLeaf(pos):
+        if left <= self.size and self.Heap[pos] > self.Heap[left]:
+            smallest = left
 
-                if self.Heap[pos] > self.Heap[self.left(pos)]:
-                    smallest = self.left(pos)
+        if right <= self.size and self.Heap[smallest] > self.Heap[right]:
+            smallest = right
 
-                if self.Heap[smallest] > self.Heap[self.right(pos)]:
-                    smallest = self.right(pos)
-
-            if smallest != pos:
-                self.swap(smallest, pos)
-                self.minHeapify(smallest)
+        if smallest != pos:
+            self.swap(smallest, pos)
+            self.minHeapify(smallest)
 
     def insert(self, element):
         if self.size >= self.maxsize:
@@ -71,6 +70,7 @@ class MinHeap:
 
         popped = self.Heap[self.FRONT]
         self.Heap[self.FRONT] = self.Heap[self.size]
+        self.Heap[self.size] = None
         self.size -= 1
         self.minHeapify(self.FRONT)
         return popped
