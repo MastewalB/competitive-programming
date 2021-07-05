@@ -58,8 +58,3 @@ class InPlaceHeap:
         for i in range(len(array) - 1, -1, -1):
             InPlaceHeap.maxHeapify(
                 array, i) if rule > 0 else InPlaceHeap.minHeapify(array, i)
-
-
-""" array = [2, 7, 4, 1, 8, 1]
-InPlaceHeap.build_heap(array, 0)
-print(array) """
