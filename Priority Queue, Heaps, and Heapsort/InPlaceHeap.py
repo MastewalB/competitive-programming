@@ -1,4 +1,5 @@
 class InPlaceHeap:
+    heap_size = 0
 
     def __init__(self, array):
         self.length = len(array)
@@ -18,15 +19,16 @@ class InPlaceHeap:
 
     @staticmethod
     def maxHeapify(array, pos):
-        length = len(array)
+
+        heap_size = InPlaceHeap.heap_size
         largest = pos
         left = InPlaceHeap.left(pos)
         right = InPlaceHeap.right(pos)
 
-        if left < length and array[pos] < array[left]:
+        if left < heap_size and array[pos] < array[left]:
             largest = left
 
-        if right < length and array[largest] < array[right]:
+        if right < heap_size and array[largest] < array[right]:
             largest = right
 
         if largest != pos:
@@ -35,15 +37,16 @@ class InPlaceHeap:
 
     @staticmethod
     def minHeapify(array, pos):
-        length = len(array)
+
+        heap_size = InPlaceHeap.heap_size
         smallest = pos
         left = InPlaceHeap.left(pos)
         right = InPlaceHeap.right(pos)
 
-        if left < length and array[pos] > array[left]:
+        if left < heap_size and array[pos] > array[left]:
             smallest = left
 
-        if right < length and array[smallest] > array[right]:
+        if right < heap_size and array[smallest] > array[right]:
             smallest = right
 
         if smallest != pos:
@@ -51,7 +54,7 @@ class InPlaceHeap:
             InPlaceHeap.minHeapify(array, smallest)
 
     def build_heap(array, rule):
-
+        InPlaceHeap.heap_size = len(array)
         for i in range(len(array) - 1, -1, -1):
             InPlaceHeap.maxHeapify(
                 array, i) if rule > 0 else InPlaceHeap.minHeapify(array, i)
