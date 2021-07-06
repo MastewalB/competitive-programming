@@ -54,6 +54,7 @@ class InPlaceHeap:
             InPlaceHeap.minHeapify(array, smallest)
 
     def build_heap(array, rule):
+        """ Builds a heap on the input array according to rule. rule - is an integer to flag a max heap or min heap """
         InPlaceHeap.heap_size = len(array)
         for i in range(len(array) - 1, -1, -1):
             InPlaceHeap.maxHeapify(
