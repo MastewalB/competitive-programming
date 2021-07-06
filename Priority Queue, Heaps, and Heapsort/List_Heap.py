@@ -1,5 +1,9 @@
 import sys
 
+"""
+    The Preferred way to use heaps for objects is hashing.
+"""
+
 
 class List_Heap:
 
