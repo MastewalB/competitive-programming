@@ -12,7 +12,7 @@ class List_Heap:
         self.FRONT = 1
         self.Heap = [None] * (self.maxsize + 1)
         self.size = 0
-        self.Heap[0] = sys.maxsize if rule > 0 else -1 * sys.maxsize
+        self.Heap[0] = [sys.maxsize] if rule > 0 else [-1 * sys.maxsize]
 
     def parent(self, pos):
         return pos // 2
