@@ -71,29 +71,61 @@ class BinarySearchTree:
             elif node.right is None:
                 node = node.left
 
+
+
+
     def preorder_traversal(self):
         self.node_list = []
+        self._preorder_traversal(self)
+        print(self.node_list)
+
+    def _preorder_traversal(self, node):
         if node != None:
             self.node_list.append(node.value)
-            self.preorder_traversal(node.left)
-            self.preorder_traversal(node.right)
+            self._preorder_traversal(node.left)
+            self._preorder_traversal(node.right)        
 
-        print(self.node_list)
 
     def inorder_traversal(self):
         self.node_list = []
-        if node != None:
-            self.inorder_traversal(node.left)
-            self.node_list.append(node.value)
-            self.inorder_traversal(node.right)
-
+        self._inorder_traversal(self)
         print(self.node_list)
+
+    def _inorder_traversal(self, node):
+        if node != None:
+            self._inorder_traversal(node.left)
+            self.node_list.append(node.value)
+            self._inorder_traversal(node.right)
+            
 
     def postorder_traversal(self):
         self.node_list = []
-        if node != None:
-            self.postorder_traversal(node.right)
-            self.postorder_traversal(node.left)
-            self.node_list.append(node.value)
-
+        self._postorder_traversal(self)
         print(self.node_list)
+
+    def _postorder_traversal(self,node):
+        if node != None:
+            self._postorder_traversal(node.right)
+            self._postorder_traversal(node.left)
+            self.node_list.append(node.value)    
+
+
+value = input("Enter the first value (root) of your Binary Search Tree:")
+tree = BinarySearchTree(value)
+
+while True:
+    tree.insert(value)
+    print("Your Binary Search Tree so far:")
+    print("")
+    print("In-order traversal:")
+    tree.inorder_traversal()
+    print("")
+    print("Pre-order traversal:")
+    tree.preorder_traversal()
+    print("")
+    print("Post-order traversal:")
+    tree.postorder_traversal()
+    print("")
+    value = input("Enter a new value or exit to quit...:")
+    if value == "exit":
+        break
