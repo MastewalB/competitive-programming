@@ -70,3 +70,30 @@ class BinarySearchTree:
                 node = node.right
             elif node.right is None:
                 node = node.left
+
+    def preorder_traversal(self):
+        self.node_list = []
+        if node != None:
+            self.node_list.append(node.value)
+            self.preorder_traversal(node.left)
+            self.preorder_traversal(node.right)
+
+        print(self.node_list)
+
+    def inorder_traversal(self):
+        self.node_list = []
+        if node != None:
+            self.inorder_traversal(node.left)
+            self.node_list.append(node.value)
+            self.inorder_traversal(node.right)
+
+        print(self.node_list)
+
+    def postorder_traversal(self):
+        self.node_list = []
+        if node != None:
+            self.postorder_traversal(node.right)
+            self.postorder_traversal(node.left)
+            self.node_list.append(node.value)
+
+        print(self.node_list)
