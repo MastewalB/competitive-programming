@@ -71,9 +71,6 @@ class BinarySearchTree:
             elif node.right is None:
                 node = node.left
 
-
-
-
     def preorder_traversal(self):
         self.node_list = []
         self._preorder_traversal(self)
@@ -83,8 +80,7 @@ class BinarySearchTree:
         if node != None:
             self.node_list.append(node.value)
             self._preorder_traversal(node.left)
-            self._preorder_traversal(node.right)        
-
+            self._preorder_traversal(node.right)
 
     def inorder_traversal(self):
         self.node_list = []
@@ -96,18 +92,17 @@ class BinarySearchTree:
             self._inorder_traversal(node.left)
             self.node_list.append(node.value)
             self._inorder_traversal(node.right)
-            
 
     def postorder_traversal(self):
         self.node_list = []
         self._postorder_traversal(self)
         print(self.node_list)
 
-    def _postorder_traversal(self,node):
+    def _postorder_traversal(self, node):
         if node != None:
-            self._postorder_traversal(node.right)
             self._postorder_traversal(node.left)
-            self.node_list.append(node.value)    
+            self._postorder_traversal(node.right)
+            self.node_list.append(node.value)
 
 
 value = input("Enter the first value (root) of your Binary Search Tree:")
