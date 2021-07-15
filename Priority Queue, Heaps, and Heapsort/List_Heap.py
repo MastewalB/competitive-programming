@@ -59,13 +59,18 @@ class List_Heap:
             current = self.parent(current)
 
     def subsert(self, element):
-
+        """Substitutes the last element of the heap with new element"""
         self.Heap[self.size] = element
 
         current = self.size
         while self.Heap[current][0] < self.Heap[self.parent(current)][0]:
             self.swap(current, self.parent(current))
             current = self.parent(current)
+
+    def search(self, element):
+        for i in range(1, len(self.Heap)):
+            if element == self.Heap[i][1]:
+                return self.Heap[i]
 
     def Print(self):
 
