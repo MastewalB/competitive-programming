@@ -28,17 +28,49 @@ class BinarySearchTree:
                 node = node.left
             elif value > node.value:
                 node = node.right
-            
             else:
-                return node.value
+                return node
+        
     
-    def get_max(self):
-        node = self.root
+    def is_leaf(self, element):
+        node = self.find(element)
+        if node:
+            if node.left or node.right:
+                return False
+            return True
+
+
+
+    def get_max(self, node = None):
+        if node is None:
+            node = self.root
         while node and node.right:
             node = node.right
         
-        return node.value
+        return node
 
+    def get_min(self, node = None):
+        if node is None:
+            node = self.root
+        while node and node.left:
+            node = node.left
+        
+        return node
+
+    def successor(self, element):
+        node = self.find(element)
+        if node.right:
+            successor = self.get_min(node.right)
+            return successor
+        return None
+    
+    def predecessor(self, element):
+        node = self.find(element)
+        if node.left:
+            predecessor = self.get_max(node.left)
+            return predecessor
+        
+        return None
 
     def insert(self, element):
         node = self.root
@@ -64,6 +96,61 @@ class BinarySearchTree:
                 print("No duplicate elements allowed")
                 return
     
+    def delete(self, element):
+        parent = self.root
+        node = self.root
+        is_left = False
+
+        while node.value != element:
+            parent = node
+            if element < node.value:
+                node = node.left
+                is_left = True
+            else:
+                is_left = False
+                node = node.right
+            if node == None:
+                print("No such element")
+                return
+
+        if self.is_leaf(node.value):
+            if is_left:
+                parent.left = None
+            else:
+                parent.right = None
+        
+        else:
+            if node.right == None:
+                if node == self.root:
+                    self.root = node.left
+                elif is_left:
+                    parent.left = node.left
+                else:
+                    parent.right = node.left
+            
+            elif node.left == None:
+                if node == self.root:
+                    self.root = node.right
+                elif is_left:
+                    parent.left = node.right
+                else:
+                    parent.right = node.right
+            
+            else:
+                successor = self.successor(node.value)
+                if node == self.root:
+                    self.root = successor
+                elif is_left:
+                    self.delete(successor.value)
+                    parent.left = successor
+                else:
+                    self.delete(successor.value)
+                    parent.right = successor
+                
+                
+                successor.left = node.left
+                successor.right = node.right
+    
 
     def inorder_traversal(self):
         self.node_list = []
@@ -83,30 +170,33 @@ class BinarySearchTree:
             self.print(node.left)
             self.print(node.right)
 
-tree = BinarySearchTree(40)
-tree.insert(20)
+# tree = BinarySearchTree(40)
+# tree.insert(20)
+# tree.insert(10)
+# tree.insert(5)
+# tree.insert(30)
+# tree.insert(50)
+# tree.insert(60)
+# tree.insert(67)
+# tree.insert(78)
+# tree.insert(7)
+# tree.insert(45)
+# tree.insert(35)
+# tree.insert(55)
+# tree.insert(62)
+
+
+tree = BinarySearchTree(7)
+tree.insert(6)
+tree.insert(9)
+tree.insert(0)
+tree.insert(2)
+tree.insert(8)
+tree.insert(12)
+tree.insert(1)
+tree.insert(3)
 tree.insert(10)
-tree.insert(5)
-tree.insert(30)
-tree.insert(50)
-tree.insert(60)
-tree.insert(67)
-tree.insert(78)
-tree.insert(7)
-tree.insert(45)
-tree.insert(55)
-tree.insert(62)
-##tree = BinarySearchTree(7)
-##tree.insert(6)
-##tree.insert(9)
-##tree.insert(0)
-##tree.insert(2)
-##tree.insert(8)
-##tree.insert(12)
-##tree.insert(1)
-##tree.insert(3)
-##tree.insert(10)
-##tree.insert(11)
+tree.insert(11)
 tree.inorder_traversal()
-print(tree.get_max())
-tree.print(tree.root)
+tree.delete(50)
+tree.inorder_traversal()
