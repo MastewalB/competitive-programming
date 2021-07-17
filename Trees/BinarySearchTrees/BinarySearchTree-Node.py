@@ -163,6 +163,28 @@ class BinarySearchTree:
             self.node_list.append(node.value)
             self._inorder_traversal(node.right)
 
+    def preorder_traversal(self):
+        self.node_list = []
+        self._preorder_traversal(self.root)
+        print(self.node_list)
+
+    def _preorder_traversal(self, node):
+        if node != None:
+            self.node_list.append(node.value)
+            self._preorder_traversal(node.left)
+            self._preorder_traversal(node.right)
+    
+    def postorder_traversal(self):
+        self.node_list = []
+        self._postorder_traversal(self.root)
+        print(self.node_list)
+    
+    def _postorder_traversal(self, node):
+        if node != None:
+            self._postorder_traversal(node.left)
+            self._postorder_traversal(node.right)
+            self.node_list.append(node.value)
+
     def print(self, node=None):
         
         if node != None:
