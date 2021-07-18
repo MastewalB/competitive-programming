@@ -20,7 +20,6 @@ class BinarySearchTree:
     def __init__(self, root):
         self.root = Node(root)
 
-
     def find(self, value):
         node = self.root
         while node:
@@ -30,8 +29,7 @@ class BinarySearchTree:
                 node = node.right
             else:
                 return node
-        
-    
+
     def is_leaf(self, element):
         node = self.find(element)
         if node:
@@ -39,22 +37,20 @@ class BinarySearchTree:
                 return False
             return True
 
-
-
-    def get_max(self, node = None):
+    def get_max(self, node=None):
         if node is None:
             node = self.root
         while node and node.right:
             node = node.right
-        
+
         return node
 
-    def get_min(self, node = None):
+    def get_min(self, node=None):
         if node is None:
             node = self.root
         while node and node.left:
             node = node.left
-        
+
         return node
 
     def successor(self, element):
@@ -63,13 +59,13 @@ class BinarySearchTree:
             successor = self.get_min(node.right)
             return successor
         return None
-    
+
     def predecessor(self, element):
         node = self.find(element)
         if node.left:
             predecessor = self.get_max(node.left)
             return predecessor
-        
+
         return None
 
     def insert(self, element):
@@ -87,15 +83,15 @@ class BinarySearchTree:
 
             elif element < node.value:
                 parent_node = node
-                node = node.left   
+                node = node.left
                 if node == None:
                     parent_node.left = new_element
                     return
-            
+
             else:
                 print("No duplicate elements allowed")
                 return
-    
+
     def delete(self, element):
         parent = self.root
         node = self.root
@@ -118,7 +114,7 @@ class BinarySearchTree:
                 parent.left = None
             else:
                 parent.right = None
-        
+
         else:
             if node.right == None:
                 if node == self.root:
@@ -127,7 +123,7 @@ class BinarySearchTree:
                     parent.left = node.left
                 else:
                     parent.right = node.left
-            
+
             elif node.left == None:
                 if node == self.root:
                     self.root = node.right
@@ -135,7 +131,7 @@ class BinarySearchTree:
                     parent.left = node.right
                 else:
                     parent.right = node.right
-            
+
             else:
                 successor = self.successor(node.value)
                 if node == self.root:
@@ -146,17 +142,15 @@ class BinarySearchTree:
                 else:
                     self.delete(successor.value)
                     parent.right = successor
-                
-                
+
                 successor.left = node.left
                 successor.right = node.right
-    
 
     def inorder_traversal(self):
         self.node_list = []
         self._inorder_traversal(self.root)
-        print(self.node_list)
-    
+        return self.node_list
+
     def _inorder_traversal(self, node):
         if node != None:
             self._inorder_traversal(node.left)
@@ -173,12 +167,12 @@ class BinarySearchTree:
             self.node_list.append(node.value)
             self._preorder_traversal(node.left)
             self._preorder_traversal(node.right)
-    
+
     def postorder_traversal(self):
         self.node_list = []
         self._postorder_traversal(self.root)
         print(self.node_list)
-    
+
     def _postorder_traversal(self, node):
         if node != None:
             self._postorder_traversal(node.left)
@@ -186,11 +180,48 @@ class BinarySearchTree:
             self.node_list.append(node.value)
 
     def print(self, node=None):
-        
+
         if node != None:
-            print(node.value, end = " ")
+            print(node.value, end=" ")
             self.print(node.left)
             self.print(node.right)
+
+    def in_range(self, root, start_node, end_node):
+        node_list = self.inorder_traversal(root)
+        deviates = {}
+        for i in range(len(node_list)):
+            if node_list[i] > end_node.value:
+                deviates[end_node] = self.find(node_list[i])
+            elif node_list[i] < start_node.value:
+                deviates[start_node] = self.find(node_list[i])
+        return deviates
+
+    def validate_bst(self, node=None):
+        if node == None:
+            node = self.root
+
+        if node == self.root:
+            if node.left:
+                if node.left.value > node.value:
+                    print("BST Violated at " + node.value)
+                    validate_bst(node.left)
+
+            if node.right:
+                if node.right.value < node.value:
+                    print("BST Violated at " + node.value)
+                    validate_bst(node.right)
+
+        else:
+            if node.left:
+                deviates = self.in_range(node.left, node.left, node)
+                print(deviates)
+                validate_bst(node.left)
+
+            elif node.right:
+                deviates = self.in_range(node.right, node, node.right)
+                print(deviates)
+                validate_bst(node.right)
+
 
 # tree = BinarySearchTree(40)
 # tree.insert(20)
@@ -207,7 +238,6 @@ class BinarySearchTree:
 # tree.insert(55)
 # tree.insert(62)
 
-
 tree = BinarySearchTree(7)
 tree.insert(6)
 tree.insert(9)
@@ -219,6 +249,7 @@ tree.insert(1)
 tree.insert(3)
 tree.insert(10)
 tree.insert(11)
-tree.inorder_traversal()
-tree.delete(50)
-tree.inorder_traversal()
+node = tree.find(8)
+node.left = Node(5)
+print(tree.inorder_traversal())
+tree.validate_bst()
