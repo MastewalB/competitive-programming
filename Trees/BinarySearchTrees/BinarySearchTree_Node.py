@@ -146,15 +146,17 @@ class BinarySearchTree:
                 successor.left = node.left
                 successor.right = node.right
 
-    def inorder_traversal(self):
+    def inorder_traversal(self, node=None):
+        if node == None:
+            node = self.root
         self.node_list = []
-        self._inorder_traversal(self.root)
+        self._inorder_traversal(node)
         return self.node_list
 
     def _inorder_traversal(self, node):
         if node != None:
             self._inorder_traversal(node.left)
-            self.node_list.append(node.value)
+            self.node_list.append(node)
             self._inorder_traversal(node.right)
 
     def preorder_traversal(self):
@@ -181,19 +183,20 @@ class BinarySearchTree:
 
     def print(self, node=None):
 
-        if node != None:
-            print(node.value, end=" ")
-            self.print(node.left)
-            self.print(node.right)
+        node_list = self.inorder_traversal()
+        for i in range(len(node_list)):
+            print(node_list[i].value, end=" ")
+        print()
 
     def in_range(self, root, start_node, end_node):
         node_list = self.inorder_traversal(root)
+        node_list.pop()
         deviates = {}
         for i in range(len(node_list)):
-            if node_list[i] > end_node.value:
-                deviates[end_node] = self.find(node_list[i])
-            elif node_list[i] < start_node.value:
-                deviates[start_node] = self.find(node_list[i])
+            if node_list[i].value > end_node.value:
+                deviates[end_node.value] = node_list[i].value
+            elif node_list[i].value < start_node.value:
+                deviates[start_node.value] = node_list[i].value
         return deviates
 
     def validate_bst(self, node=None):
@@ -201,26 +204,28 @@ class BinarySearchTree:
             node = self.root
 
         if node == self.root:
+            
             if node.left:
                 if node.left.value > node.value:
-                    print("BST Violated at " + node.value)
-                    validate_bst(node.left)
+                    print("BST Violated at " + str(node.value))
+                self.validate_bst(node.left)
 
             if node.right:
                 if node.right.value < node.value:
-                    print("BST Violated at " + node.value)
-                    validate_bst(node.right)
+                    print("BST Violated at " + str(node.value))
+                self.validate_bst(node.right)
 
         else:
+            
             if node.left:
                 deviates = self.in_range(node.left, node.left, node)
                 print(deviates)
-                validate_bst(node.left)
+                self.validate_bst(node.left)
 
             elif node.right:
                 deviates = self.in_range(node.right, node, node.right)
                 print(deviates)
-                validate_bst(node.right)
+                self.validate_bst(node.right)
 
 
 # tree = BinarySearchTree(40)
@@ -249,7 +254,8 @@ tree.insert(1)
 tree.insert(3)
 tree.insert(10)
 tree.insert(11)
-node = tree.find(8)
-node.left = Node(5)
-print(tree.inorder_traversal())
+node = tree.find(2)
+node.left = Node(4)
+tree.print()
+
 tree.validate_bst()
