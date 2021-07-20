@@ -15,9 +15,9 @@ class Queue:
     def peek(self):
 
         if self.isEmpty():
-            return "Empty"
-        else:
-            print(self.queue[0])
+            return None
+
+        return self.queue[0]
 
     def size(self):
         return len(self.queue)
