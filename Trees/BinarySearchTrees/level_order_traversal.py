@@ -1,26 +1,34 @@
 from BinarySearchTree_Node import BinarySearchTree
+from Queue import Queue
 
 
-levels = []
-def level_traversal(bst, node = None):
-    queue = []
+def level_traversal(bst, node=None):
+    queue = Queue()
+    levels = []
 
     if node == None:
         node = bst.root
 
-    queue.push([node])
-    while len(stack) > 0:
-        queue.append([])
-        for i in range(len(queue[0])):
-            for child in queue[0][i].children:
-                if child != None:
-                    queue[1].append(child)
+    queue.enqueue([node])
+    while queue.size() > 0:
+        new = []
         
-        #remove/pop the parent 
-
-
+        front = queue.peek()
+        #print(front[0].value)
+        for i in range(len(front)):
+            for child in front[i].children:
+                
+                if child != None:
+                    new.append(child)
+                    print(new)
+        print(queue.size())
+        levels.append(queue.dequeue())
+        #print(levels)
+        
+    queue.enqueue(new)
+        
     
-
+    #print(levels)
 
 
 tree = BinarySearchTree(7)
@@ -34,3 +42,6 @@ tree.insert(1)
 tree.insert(3)
 tree.insert(10)
 tree.insert(11)
+#tree.print()
+
+level_traversal(tree)
