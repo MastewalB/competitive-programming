@@ -5,6 +5,7 @@ class Node:
         self.parent = None
         self.left = None
         self.right = None
+        self.children = [self.left, self.right]
 
     def get_parent(self):
         return self.parent
@@ -166,7 +167,7 @@ class BinarySearchTree:
 
     def _preorder_traversal(self, node):
         if node != None:
-            self.node_list.append(node.value)
+            self.node_list.append(node)
             self._preorder_traversal(node.left)
             self._preorder_traversal(node.right)
 
@@ -179,7 +180,7 @@ class BinarySearchTree:
         if node != None:
             self._postorder_traversal(node.left)
             self._postorder_traversal(node.right)
-            self.node_list.append(node.value)
+            self.node_list.append(node)
 
     def print(self, node=None):
 
