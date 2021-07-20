@@ -5,7 +5,7 @@ class Node:
         self.parent = None
         self.left = None
         self.right = None
-        self.children = [self.left, self.right]
+        self.children = [self.get_left(), self.get_right()]
 
     def get_parent(self):
         return self.parent
@@ -80,6 +80,7 @@ class BinarySearchTree:
                 node = node.right
                 if node == None:
                     parent_node.right = new_element
+                    parent_node.children[1] = new_element
                     return
 
             elif element < node.value:
@@ -87,6 +88,7 @@ class BinarySearchTree:
                 node = node.left
                 if node == None:
                     parent_node.left = new_element
+                    parent_node.children[0] = new_element
                     return
 
             else:
@@ -205,7 +207,7 @@ class BinarySearchTree:
             node = self.root
 
         if node == self.root:
-            
+
             if node.left:
                 if node.left.value > node.value:
                     print("BST Violated at " + str(node.value))
@@ -217,7 +219,7 @@ class BinarySearchTree:
                 self.validate_bst(node.right)
 
         else:
-            
+
             if node.left:
                 deviates = self.in_range(node.left, node.left, node)
                 print(deviates)
@@ -244,19 +246,19 @@ class BinarySearchTree:
 # tree.insert(55)
 # tree.insert(62)
 
-tree = BinarySearchTree(7)
-tree.insert(6)
-tree.insert(9)
-tree.insert(0)
-tree.insert(2)
-tree.insert(8)
-tree.insert(12)
-tree.insert(1)
-tree.insert(3)
-tree.insert(10)
-tree.insert(11)
-node = tree.find(2)
-node.left = Node(4)
-tree.print()
+# tree = BinarySearchTree(7)
+# tree.insert(6)
+# tree.insert(9)
+# tree.insert(0)
+# tree.insert(2)
+# tree.insert(8)
+# tree.insert(12)
+# tree.insert(1)
+# tree.insert(3)
+# tree.insert(10)
+# tree.insert(11)
+# node = tree.find(2)
+# node.left = Node(4)
+# tree.print()
 
-tree.validate_bst()
+# tree.validate_bst()
