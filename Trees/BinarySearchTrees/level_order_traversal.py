@@ -12,23 +12,21 @@ def level_traversal(bst, node=None):
     queue.enqueue([node])
     while queue.size() > 0:
         new = []
-        
+
         front = queue.peek()
-        #print(front[0].value)
+
         for i in range(len(front)):
             for child in front[i].children:
-                
+
                 if child != None:
                     new.append(child)
-                    print(new)
-        print(queue.size())
+
         levels.append(queue.dequeue())
-        #print(levels)
-        
-    queue.enqueue(new)
-        
-    
-    #print(levels)
+
+        if new != []:
+            queue.enqueue(new)
+
+    return levels
 
 
 tree = BinarySearchTree(7)
@@ -42,6 +40,10 @@ tree.insert(1)
 tree.insert(3)
 tree.insert(10)
 tree.insert(11)
-#tree.print()
+# tree.print()
 
-level_traversal(tree)
+levels = level_traversal(tree)
+for i in range(len(levels)):
+    for j in range(len(levels[i])):
+        print(levels[i][j].value, end=" ")
+    print()
