@@ -192,6 +192,8 @@ class BinarySearchTree:
         print()
 
     def in_range(self, root, start_node, end_node):
+        """Function verifies that all nodes beneath root are in between start_node and end_node"""
+
         node_list = self.inorder_traversal(root)
         node_list.pop()
         deviates = {}
