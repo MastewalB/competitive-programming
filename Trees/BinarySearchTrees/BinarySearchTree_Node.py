@@ -162,10 +162,12 @@ class BinarySearchTree:
             self.node_list.append(node)
             self._inorder_traversal(node.right)
 
-    def preorder_traversal(self):
+    def preorder_traversal(self, node=None):
+        if node == None:
+            node = self.root
         self.node_list = []
-        self._preorder_traversal(self.root)
-        print(self.node_list)
+        self._preorder_traversal(node)
+        return self.node_list
 
     def _preorder_traversal(self, node):
         if node != None:
@@ -173,10 +175,12 @@ class BinarySearchTree:
             self._preorder_traversal(node.left)
             self._preorder_traversal(node.right)
 
-    def postorder_traversal(self):
+    def postorder_traversal(self, node=None):
+        if node == None:
+            node = self.root
         self.node_list = []
-        self._postorder_traversal(self.root)
-        print(self.node_list)
+        self._postorder_traversal(node)
+        return self.node_list
 
     def _postorder_traversal(self, node):
         if node != None:
@@ -184,9 +188,16 @@ class BinarySearchTree:
             self._postorder_traversal(node.right)
             self.node_list.append(node)
 
-    def print(self, node=None):
+    def print(self, traversal = 0):
+        
+        node_list = []
+        if traversal == 0:
+            node_list = self.inorder_traversal()
+        elif traversal == 1:
+            node_list = self.preorder_traversal()
+        elif traversal == 2:
+            node_list = self.postorder_traversal()
 
-        node_list = self.inorder_traversal()
         for i in range(len(node_list)):
             print(node_list[i].value, end=" ")
         print()
