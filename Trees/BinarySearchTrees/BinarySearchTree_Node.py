@@ -115,8 +115,10 @@ class BinarySearchTree:
         if self.is_leaf(node.value):
             if is_left:
                 parent.left = None
+                parent.children[0] = None
             else:
                 parent.right = None
+                parent.children[1] = None
 
         else:
             if node.right == None:
@@ -124,16 +126,20 @@ class BinarySearchTree:
                     self.root = node.left
                 elif is_left:
                     parent.left = node.left
+                    parent.children[0] = node.left
                 else:
                     parent.right = node.left
+                    parent.children[1] = node.left
 
             elif node.left == None:
                 if node == self.root:
                     self.root = node.right
                 elif is_left:
                     parent.left = node.right
+                    parent.children[0] = node.right
                 else:
                     parent.right = node.right
+                    parent.children[1] = node.right
 
             else:
                 successor = self.successor(node.value)
@@ -142,9 +148,11 @@ class BinarySearchTree:
                 elif is_left:
                     self.delete(successor.value)
                     parent.left = successor
+                    parent.children[0] = successor
                 else:
                     self.delete(successor.value)
                     parent.right = successor
+                    parent.children[1] = successor
 
                 successor.left = node.left
                 successor.right = node.right
@@ -188,8 +196,8 @@ class BinarySearchTree:
             self._postorder_traversal(node.right)
             self.node_list.append(node)
 
-    def print(self, traversal = 0):
-        
+    def print(self, traversal=0):
+
         node_list = []
         if traversal == 0:
             node_list = self.inorder_traversal()
