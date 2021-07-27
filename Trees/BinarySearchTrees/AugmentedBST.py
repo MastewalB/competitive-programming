@@ -1,76 +1,213 @@
+class Node:
+    def __init__(self, value):
+
+        self.sub_count = 1  # Augmentation property to hold number of children below the current node including the current node
+        self.value = value
+        self.parent = None
+        self.left = None
+        self.right = None
+        self.children = [self.get_left(), self.get_right()]
+
+    def get_parent(self):
+        return self.parent
+
+    def get_left(self):
+        return self.left
+
+    def get_right(self):
+        return self.right
+
+
 class AugmentedBST:
 
-    def __init__(self, value, left=None, right=None):
-        self.index = 1
-        self.value = value
-        self.left = left
-        self.right = right
+    def __init__(self, root):
+        self.root = Node(root)
 
     def find(self, value):
-        node = self
+        node = self.root
         while node:
-            if value < node.val:
+            if value < node.value:
                 node = node.left
-
-            elif value > node.val:
+            elif value > node.value:
                 node = node.right
-
             else:
                 return node
 
-    def get_max(self):
-        node = self
+    def is_leaf(self, element):
+        node = self.find(element)
+        if node:
+            if node.left or node.right:
+                return False
+            return True
+
+    def get_max(self, node=None):
+        if node is None:
+            node = self.root
         while node and node.right:
             node = node.right
+
         return node
 
-    def get_min(self):
-        node = self
+    def get_min(self, node=None):
+        if node is None:
+            node = self.root
         while node and node.left:
             node = node.left
+
         return node
 
-    def insert(self, value, node=None, root=True, augment=1):
-        if root:
-            node = self
-        if node is None:
-            self.index += augment
-            return AugmentedBST(value)
+    def successor(self, element):
+        node = self.find(element)
+        if node.right:
+            successor = self.get_min(node.right)
+            return successor
+        return None
 
-        if value < node.value:
-            node.left = self.insert(value, node.left, True, augment=1)
-            
+    def predecessor(self, element):
+        node = self.find(element)
+        if node.left:
+            predecessor = self.get_max(node.left)
+            return predecessor
 
-        elif value > node.value:
-            node.right = self.insert(value, node.right, True,augment=1)
+        return None
+
+    def insert(self, element):
+        node = self.root
+        parent_node = None
+        new_element = Node(element)
+
+        while True:
+            if element > node.value:
+                parent_node = node
+                node = node.right
+                if node == None:
+                    parent_node.right = new_element
+                    parent_node.children[1] = new_element
+                    return
+
+            elif element < node.value:
+                parent_node = node
+                node = node.left
+                if node == None:
+                    parent_node.left = new_element
+                    parent_node.children[0] = new_element
+                    return
+
+            else:
+                print("No duplicate elements allowed")
+                return
+
+    def delete(self, element):
+        parent = self.root
+        node = self.root
+        is_left = False
+
+        while node.value != element:
+            parent = node
+            if element < node.value:
+                node = node.left
+                is_left = True
+            else:
+                is_left = False
+                node = node.right
+            if node == None:
+                print("No such element")
+                return
+
+        if self.is_leaf(node.value):
+            if is_left:
+                parent.left = None
+                parent.children[0] = None
+            else:
+                parent.right = None
+                parent.children[1] = None
 
         else:
-            return node
+            if node.right == None:
+                if node == self.root:
+                    self.root = node.left
+                elif is_left:
+                    parent.left = node.left
+                    parent.children[0] = node.left
+                else:
+                    parent.right = node.left
+                    parent.children[1] = node.left
 
-        return node
+            elif node.left == None:
+                if node == self.root:
+                    self.root = node.right
+                elif is_left:
+                    parent.left = node.right
+                    parent.children[0] = node.right
+                else:
+                    parent.right = node.right
+                    parent.children[1] = node.right
 
-    def inorder_traversal(self):
+            else:
+                successor = self.successor(node.value)
+                if node == self.root:
+                    self.root = successor
+                elif is_left:
+                    self.delete(successor.value)
+                    parent.left = successor
+                    parent.children[0] = successor
+                else:
+                    self.delete(successor.value)
+                    parent.right = successor
+                    parent.children[1] = successor
+
+                successor.left = node.left
+                successor.right = node.right
+
+    def inorder_traversal(self, node=None):
+        if node == None:
+            node = self.root
         self.node_list = []
-        self._inorder_traversal(self)
-        print(self.node_list)
+        self._inorder_traversal(node)
+        return self.node_list
 
     def _inorder_traversal(self, node):
         if node != None:
             self._inorder_traversal(node.left)
-            self.node_list.append([node.index, node.value])
+            self.node_list.append(node)
             self._inorder_traversal(node.right)
 
+    def preorder_traversal(self, node=None):
+        if node == None:
+            node = self.root
+        self.node_list = []
+        self._preorder_traversal(node)
+        return self.node_list
 
-value = input("Enter the first value (root) of your Binary Search Tree:")
-tree = AugmentedBST(value)
+    def _preorder_traversal(self, node):
+        if node != None:
+            self.node_list.append(node)
+            self._preorder_traversal(node.left)
+            self._preorder_traversal(node.right)
 
-while True:
-    tree.insert(value)
-    print("Your Binary Search Tree so far:")
-    print("")
-    print("In-order traversal:")
-    tree.inorder_traversal()
-    print("")
-    value = input("Enter a new value or exit to quit...:")
-    if value == "exit":
-        break
+    def postorder_traversal(self, node=None):
+        if node == None:
+            node = self.root
+        self.node_list = []
+        self._postorder_traversal(node)
+        return self.node_list
+
+    def _postorder_traversal(self, node):
+        if node != None:
+            self._postorder_traversal(node.left)
+            self._postorder_traversal(node.right)
+            self.node_list.append(node)
+
+    def print(self, traversal=0):
+
+        node_list = []
+        if traversal == 0:
+            node_list = self.inorder_traversal()
+        elif traversal == 1:
+            node_list = self.preorder_traversal()
+        elif traversal == 2:
+            node_list = self.postorder_traversal()
+
+        for i in range(len(node_list)):
+            print(node_list[i].value, end=" ")
+        print()
