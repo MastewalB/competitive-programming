@@ -79,6 +79,7 @@ class AugmentedBST:
         while True:
             if element > node.value:
                 parent_node = node
+                parent_node.sub_count += 1
                 node = node.right
                 if node == None:
                     parent_node.right = new_element
@@ -87,6 +88,7 @@ class AugmentedBST:
 
             elif element < node.value:
                 parent_node = node
+                parent_node.sub_count += 1
                 node = node.left
                 if node == None:
                     parent_node.left = new_element
@@ -105,10 +107,12 @@ class AugmentedBST:
         while node.value != element:
             parent = node
             if element < node.value:
+                node.sub_count -= 1
                 node = node.left
                 is_left = True
             else:
                 is_left = False
+                node.sub_count -= 1
                 node = node.right
             if node == None:
                 print("No such element")
@@ -145,6 +149,7 @@ class AugmentedBST:
 
             else:
                 successor = self.successor(node.value)
+                sub_count = node.sub_count
                 if node == self.root:
                     self.root = successor
                 elif is_left:
@@ -158,6 +163,7 @@ class AugmentedBST:
 
                 successor.left = node.left
                 successor.right = node.right
+                successor.sub_count = sub_count - 1
 
     def inorder_traversal(self, node=None):
         if node == None:
@@ -209,5 +215,23 @@ class AugmentedBST:
             node_list = self.postorder_traversal()
 
         for i in range(len(node_list)):
-            print(node_list[i].value, end=" ")
+            print([node_list[i].value, node_list[i].sub_count], end=" ")
         print()
+
+
+tree = AugmentedBST(7)
+tree.insert(6)
+tree.insert(9)
+tree.insert(0)
+tree.insert(2)
+tree.insert(8)
+tree.insert(12)
+tree.insert(1)
+tree.insert(3)
+tree.insert(10)
+tree.insert(11)
+print("Before")
+tree.print()
+tree.delete(2)
+print("After")
+tree.print()
