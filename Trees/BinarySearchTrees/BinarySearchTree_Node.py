@@ -268,6 +268,10 @@ class BinarySearchTree:
 
         return accumulate
 
+    def paths(self):
+        # Prints paths from root to all leaf nodes
+        path = path
+
 
 # tree = BinarySearchTree(40)
 # tree.insert(20)
@@ -283,7 +287,6 @@ class BinarySearchTree:
 # tree.insert(35)
 # tree.insert(55)
 # tree.insert(62)
-
 tree = BinarySearchTree(7)
 tree.insert(6)
 tree.insert(9)
@@ -295,8 +298,8 @@ tree.insert(1)
 tree.insert(3)
 tree.insert(10)
 tree.insert(11)
-tree.print()
-tree.greater_sum(node=tree.root)
-tree.print()
+# tree.print()
+# tree.greater_sum(node=tree.root)
+# tree.print()
 
 # tree.validate_bst()
