@@ -251,6 +251,23 @@ class BinarySearchTree:
                 print(deviates)
                 self.validate_bst(node.right)
 
+    def greater_sum(self, node=None, accumulate=0):
+        if node != None:
+
+            if node.right != None:
+                accumulate = self.greater_sum(
+                    node=node.right, accumulate=accumulate)
+
+            value = node.value
+            node.value = accumulate
+            accumulate += value
+
+            if node.left != None:
+                accumulate = self.greater_sum(
+                    node=node.left, accumulate=accumulate)
+
+        return accumulate
+
 
 # tree = BinarySearchTree(40)
 # tree.insert(20)
@@ -267,19 +284,19 @@ class BinarySearchTree:
 # tree.insert(55)
 # tree.insert(62)
 
-# tree = BinarySearchTree(7)
-# tree.insert(6)
-# tree.insert(9)
-# tree.insert(0)
-# tree.insert(2)
-# tree.insert(8)
-# tree.insert(12)
-# tree.insert(1)
-# tree.insert(3)
-# tree.insert(10)
-# tree.insert(11)
-# node = tree.find(2)
-# node.left = Node(4)
-# tree.print()
+tree = BinarySearchTree(7)
+tree.insert(6)
+tree.insert(9)
+tree.insert(0)
+tree.insert(2)
+tree.insert(8)
+tree.insert(12)
+tree.insert(1)
+tree.insert(3)
+tree.insert(10)
+tree.insert(11)
+tree.print()
+tree.greater_sum(node=tree.root)
+tree.print()
 
 # tree.validate_bst()
