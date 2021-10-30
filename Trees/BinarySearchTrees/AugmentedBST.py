@@ -19,6 +19,10 @@ class Node:
 
 
 class AugmentedBST:
+    
+    #this state tells whether a deletion is total removal of a node or merely a substitution/continual of ongoing deletion process
+    del_type = 'REMOVAL', 'SUBS'
+
 
     def __init__(self, root):
         self.root = Node(root)
@@ -99,7 +103,7 @@ class AugmentedBST:
                 print("No duplicate elements allowed")
                 return
 
-    def delete(self, element):
+    def delete(self, element, del_type=del_type[0]):
         parent = self.root
         node = self.root
         is_left = False
@@ -107,12 +111,14 @@ class AugmentedBST:
         while node.value != element:
             parent = node
             if element < node.value:
-                node.sub_count -= 1
+                if del_type == 'REMOVAL':
+                    node.sub_count -= 1
                 node = node.left
                 is_left = True
             else:
                 is_left = False
-                node.sub_count -= 1
+                if del_type == 'REMOVAL':
+                    node.sub_count -= 1
                 node = node.right
             if node == None:
                 print("No such element")
@@ -153,11 +159,11 @@ class AugmentedBST:
                 if node == self.root:
                     self.root = successor
                 elif is_left:
-                    self.delete(successor.value)
+                    self.delete(successor.value, del_type[1])
                     parent.left = successor
                     parent.children[0] = successor
                 else:
-                    self.delete(successor.value)
+                    self.delete(successor.value, del_type[1])
                     parent.right = successor
                     parent.children[1] = successor
 
