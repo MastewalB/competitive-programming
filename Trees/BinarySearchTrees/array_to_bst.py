@@ -1,8 +1,6 @@
 from BinarySearchTree_Node import Node, BinarySearchTree
 
 
-
-
 def construct(array):
     length = len(array)
     if length == 1:
@@ -15,9 +13,8 @@ def construct(array):
     root.right = construct(array[length//2+1:])
 
     return root
-    
 
-    
+
 def construct_bst(array):
     tree = BinarySearchTree(array[len(array)//2])
     tree.root.left = construct(array[0:len(array)//2])
@@ -26,6 +23,7 @@ def construct_bst(array):
     return tree
 
 
-array = [0,1,2,3,6,7,8,9,12,20]
+array = [0, 1, 2, 9, 3, 6, 7, 8, 12, 20]
 tree = construct_bst(array)
 tree.print(0)
+print(tree.root.value)

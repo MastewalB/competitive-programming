@@ -5,7 +5,9 @@ class Node:
         self.parent = None
         self.left = None
         self.right = None
+        # 0 for left child and 1 for right child
         self.children = [self.get_left(), self.get_right()]
+        self.all_paths = []
 
     def get_parent(self):
         return self.parent
@@ -197,6 +199,11 @@ class BinarySearchTree:
             self.node_list.append(node)
 
     def print(self, traversal=0):
+        """Prints the tree in various traversal modes
+        0 - Inorder Traversal
+        1 - Preorder Traversal
+        2 - Postorder Traversal
+        """
 
         node_list = []
         if traversal == 0:
@@ -224,6 +231,9 @@ class BinarySearchTree:
         return deviates
 
     def validate_bst(self, node=None):
+        """
+        Verifies if the binary search tree is valid 
+        """
         if node == None:
             node = self.root
 
@@ -252,6 +262,11 @@ class BinarySearchTree:
                 self.validate_bst(node.right)
 
     def greater_sum(self, node=None, accumulate=0):
+        """
+        Greater Sum tree is a tree in which every node contains
+        the sum of all of the nodes which are greater than the node.
+
+        """
         if node != None:
 
             if node.right != None:
@@ -268,9 +283,39 @@ class BinarySearchTree:
 
         return accumulate
 
-    def paths(self):
-        # Prints paths from root to all leaf nodes
-        path = path
+    def paths(self, node, path=[]):
+        """Function prints all paths from the root to each leaf node"""
+
+        if node is None:
+            return
+        path.append(node.value)
+
+        if node.left == None and node.right == None:
+            self.all_paths.append(list(path))
+            path.pop()
+
+        else:
+            paths(node.left, path)
+            paths(node.right, path)
+            path.pop()
+
+    def diameter(self, root=None):
+        """Returns the diameter(longest path) in the binary search tree"""
+
+        self.result = 0
+        if not root:
+            root = self.root
+
+        def dfs(root):
+            if not root:
+                return -1
+            left = dfs(root.left)
+            right = dfs(root.right)
+
+            self.result = max(self.result, left + right + 2)
+            return 1 + max(left, right)
+        dfs(root)
+        return self.result
 
 
 # tree = BinarySearchTree(40)
@@ -303,3 +348,4 @@ tree.insert(11)
 # tree.print()
 
 # tree.validate_bst()
+print(tree.diameter(tree.root))
