@@ -1,8 +1,8 @@
+from collections import defaultdict
 
 
 def triple(arr):
-    count = [0] * (len(arr) + 1)
-    # print(count)
+    count = defaultdict(int)
     for i in arr:
         count[i] += 1
         if count[i] == 3:
